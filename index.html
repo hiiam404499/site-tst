@@ -3,82 +3,196 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CrystalVoid | Underground Hub</title>
-    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <title>CrystalVoid | Downloads</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;900&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
-    <link rel="stylesheet" href="style.css">
+
+    <style>
+        :root {
+            --primary: #00f2ff;
+            --secondary: #7000ff;
+            --accent: #ff00c8;
+            --bg-dark: #050505;
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; }
+
+        body {
+            background-color: var(--bg-dark);
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(112, 0, 255, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(0, 242, 255, 0.1) 0%, transparent 40%);
+        }
+
+        /* Efeito de Ruído */
+        body::before {
+            content: "";
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://grainy-gradients.vercel.app/noise.svg');
+            opacity: 0.05; pointer-events: none; z-index: 1;
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 4rem 1.5rem; position: relative; z-index: 2; }
+
+        header { text-align: center; margin-bottom: 5rem; }
+        
+        .logo-area h1 { 
+            font-family: 'Space Grotesk', sans-serif; 
+            font-size: clamp(2.5rem, 8vw, 4.5rem); letter-spacing: -2px; line-height: 1;
+        }
+
+        .highlight { 
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 15px rgba(0, 242, 255, 0.4));
+        }
+
+        .status-pill {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(0, 242, 255, 0.05); color: var(--primary);
+            padding: 8px 20px; border-radius: 50px; font-size: 0.75rem; font-weight: 900;
+            border: 1px solid rgba(0, 242, 255, 0.2); margin-top: 25px;
+            text-transform: uppercase; letter-spacing: 1px;
+        }
+
+        .dot { width: 8px; height: 8px; background: var(--primary); border-radius: 50%; box-shadow: 0 0 10px var(--primary); animation: pulse 2s infinite; }
+
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
+
+        /* Grid de Downloads */
+        .download-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            perspective: 1000px;
+        }
+
+        .download-card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 2.5rem;
+            backdrop-filter: blur(12px);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .download-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: var(--primary);
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+            border: 1px solid var(--glass-border);
+        }
+
+        .download-card h3 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 0.8rem;
+            background: linear-gradient(to right, #fff, #888);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+
+        .download-card p {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        .btn-download {
+            width: 100%;
+            padding: 16px;
+            border-radius: 14px;
+            border: none;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            font-weight: 900;
+            text-decoration: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            transition: 0.3s;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            margin-top: auto;
+        }
+
+        .btn-download:hover {
+            filter: brightness(1.2);
+            box-shadow: 0 0 25px rgba(0, 242, 255, 0.4);
+            transform: scale(1.02);
+        }
+
+        footer {
+            margin-top: 6rem;
+            text-align: center;
+            color: #444;
+            padding: 2rem;
+            font-weight: 700;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 2rem 1rem; }
+            .download-grid { grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
 <body>
 
-    <div class="scanline"></div>
-    <div class="cyber-bg"></div>
-
     <div class="container">
-        <nav class="navbar">
-            <div class="brand">CRYSTAL<span>VOID</span></div>
-            <div class="nav-status">
-                <span class="pulse"></span> ENCRYPTED CONNECTION
+        <header>
+            <div class="logo-area">
+                <h1>Crystal<span class="highlight">Void</span></h1>
+                <div class="status-pill">
+                    <span class="dot"></span> <span>Centro de Downloads</span>
+                </div>
             </div>
-        </nav>
-
-        <header class="hero">
-            <h1 class="glitch" data-text="CRYSTALVOID">CRYSTALVOID</h1>
-            <p>ADVANCED EXECUTORS & SYSTEM OPTIMIZATION</p>
         </header>
 
-        <div class="grid">
-            <div class="cyber-card featured">
-                <div class="card-edge"></div>
-                <div class="card-tag">OFFICIAL</div>
-                <i class="ph-fill ph-target icon-bg"></i>
-                <div class="card-body">
-                    <h2>ZCLAW EXECUTOR</h2>
-                    <p>Performance de nível militar. Desenvolvido por oReeScripter para máxima estabilidade.</p>
-                    <a href="https://orescripter.com/zclaw/" class="cyber-btn">
-                        <span>ESTABELECER CONEXÃO</span>
-                    </a>
-                </div>
+        <main class="download-grid">
+            
+            <div class="download-card">
+                <div class="card-icon"><i class="ph-bold ph-desktop"></i></div>
+                <h3>Simples Executor</h3>
+                <p>apenas um executor para injetar e executar Scripts</p>
+                <a href="https://www.mediafire.com/file/cl36deu7bkjer8t/Simple+Executor.rar/file" class="btn-download">
+                    BAIXAR AGORA <i class="ph-bold ph-download-simple"></i>
+                </a>
             </div>
 
-            <div class="cyber-card">
-                <div class="card-tag">OS</div>
-                <div class="card-body">
-                    <h3>SAPPHIRE OS</h3>
-                    <p>Otimização extrema de kernel para baixa latência.</p>
-                    <a href="https://discord.com/invite/sapphireos-1123140900084797510" class="mini-btn">DISCORD</a>
-                </div>
-            </div>
-
-            <div class="cyber-card">
-                <div class="card-tag">LITE</div>
-                <div class="card-body">
-                    <h3>SIMPLE EXE</h3>
-                    <p>Executor leve para tarefas rápidas.</p>
-                    <a href="https://www.mediafire.com/file/cl36deu7bkjer8t/Simple+Executor.rar/file" class="mini-btn">MEDIAFIRE</a>
-                </div>
-            </div>
-
-            <div class="cyber-card">
-                <div class="card-tag">TOOL</div>
-                <div class="card-body">
-                    <h3>AUTO CLICKER</h3>
-                    <p>0ms delay. Bypass de detecção de clique.</p>
-                    <a href="https://www.mediafire.com/file/ro5pvdjinftbz7q/EzAutoClicker.exe/file" class="mini-btn">BAIXAR</a>
-                </div>
-            </div>
-
-            <div class="cyber-card">
-                <div class="card-tag">MUSIC</div>
-                <div class="card-body">
-                    <h3>SPOTIFY TOOL</h3>
-                    <p>Controle direto via API do sistema.</p>
-                    <a href="https://www.spotify.com/br-pt/download/windows/" class="mini-btn">ACESSO</a>
-                </div>
-            </div>
-        </div>
+        </main>
 
         <footer>
-            TERMINAL v3.0 // SOURCE: OREE_SCRIPTER // 2026
+            © 2026 CRYSTALVOID HUB - TODOS OS DIREITOS RESERVADOS
         </footer>
     </div>
 
